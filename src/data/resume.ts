@@ -13,7 +13,7 @@ export interface SkillGroup {
 
 export const resumeHeader = {
   name: 'Marcos Mena Cruz',
-  contact: 'mmenacruz@gmail.com | +1 (647) 569-2214 | LinkedIn',
+  contact: 'mmenacruz@gmail.com | +1 (647) 569-2214',
 };
 
 export const experience: ResumeRole[] = [
