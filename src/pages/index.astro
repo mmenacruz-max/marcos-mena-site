@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import MetricCards from '../components/MetricCards.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { about } from '../data/site';
+
+const allProjects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const featuredProjects = allProjects.slice(0, 4);
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const latestPosts = allPosts.slice(0, 3);
+---
+
+<BaseLayout>
+  <Hero />
+  <MetricCards />
+
+  <section class="mx-auto max-w-5xl px-6 py-12 border-t border-border">
+    <h2 class="font-display text-2xl font-semibold text-text">A Little About Marcos</h2>
+    {about.map((paragraph) => (
+      <p class="mt-4 max-w-3xl text-text-muted leading-relaxed">{paragraph}</p>
+    ))}
+  </section>
+
+  <section class="mx-auto max-w-5xl px-6 py-12 border-t border-border">
+    <h2 class="font-display text-2xl font-semibold text-text mb-8">Featured Projects</h2>
+    <ul class="grid gap-6 grid-cols-1 sm:grid-cols-2 list-none p-0 m-0">
+      {
+        featuredProjects.map((project) => (
+          <li>
+            <ProjectCard
+              slug={project.id}
+              title={project.data.title}
+              summary={project.data.summary}
+              tags={project.data.tags}
+              outcome={project.data.outcome}
+              website={project.data.website}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    latestPosts.length > 0 && (
+      <section class="mx-auto max-w-5xl px-6 py-12 border-t border-border">
+        <h2 class="font-display text-2xl font-semibold text-text mb-8">Thought Leadership</h2>
+        <ul class="grid gap-6 grid-cols-1 sm:grid-cols-2 list-none p-0 m-0">
+          {latestPosts.map((post) => (
+            <li>
+              <BlogCard
+                slug={post.id}
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                tags={post.data.tags}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

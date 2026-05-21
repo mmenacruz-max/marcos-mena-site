@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { projectsIntro } from '../../data/site';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<BaseLayout title="Projects" description={projectsIntro}>
+  <section class="mx-auto max-w-5xl px-6 py-12 md:py-16">
+    <header class="max-w-2xl">
+      <h1 class="font-display text-3xl font-bold text-text md:text-4xl">Special Projects</h1>
+      <p class="mt-4 text-lg text-text-muted leading-relaxed">{projectsIntro}</p>
+    </header>
+
+    <ul class="mt-12 grid gap-6 md:grid-cols-2 list-none p-0 m-0">
+      {
+        projects.map((project) => (
+          <li>
+            <ProjectCard
+              slug={project.id}
+              title={project.data.title}
+              summary={project.data.summary}
+              tags={project.data.tags}
+              outcome={project.data.outcome}
+              website={project.data.website}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

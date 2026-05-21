@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { blogIntro } from '../../data/site';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Thought Leadership" description={blogIntro}>
+  <section class="mx-auto max-w-5xl px-6 py-12 md:py-16">
+    <header class="max-w-2xl">
+      <h1 class="font-display text-3xl font-bold text-text md:text-4xl">Thought Leadership</h1>
+      <p class="mt-4 text-lg text-text-muted leading-relaxed">{blogIntro}</p>
+    </header>
+
+    {
+      posts.length === 0 ? (
+        <p class="mt-12 text-text-muted">Posts coming soon.</p>
+      ) : (
+        <ul class="mt-12 grid gap-6 md:grid-cols-2 list-none p-0 m-0">
+          {posts.map((post) => (
+            <li>
+              <BlogCard
+                slug={post.id}
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                tags={post.data.tags}
+              />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<ArticleLayout
+  title={post.data.title}
+  description={post.data.description}
+  backHref="/blog"
+  backLabel="Thought Leadership"
+>
+  <Fragment slot="header">
+    <time class="text-sm text-text-muted" datetime={post.data.pubDate.toISOString()}>
+      {formattedDate}
+    </time>
+    <h1 class="mt-2 font-display text-3xl font-bold text-text md:text-4xl">{post.data.title}</h1>
+    {
+      post.data.image && (
+        <img
+          src={post.data.image}
+          alt=""
+          class="mt-6 w-full rounded-lg border border-border"
+        />
+      )
+    }
+    {
+      post.data.tags.length > 0 && (
+        <ul class="mt-4 flex flex-wrap gap-2 list-none p-0 m-0">
+          {post.data.tags.map((tag) => (
+            <li><span class="tag">{tag}</span></li>
+          ))}
+        </ul>
+      )
+    }
+  </Fragment>
+  <Content />
+</ArticleLayout>

@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ArticleLayout
+  title={project.data.title}
+  description={project.data.description}
+  backHref="/projects"
+  backLabel="All projects"
+>
+  <Fragment slot="header">
+    <h1 class="font-display text-3xl font-bold text-text md:text-4xl">{project.data.title}</h1>
+    <p class="mt-3 text-lg text-text-muted">{project.data.description}</p>
+    <p class="mt-2 text-sm font-medium text-accent">{project.data.outcome}</p>
+    <ul class="mt-4 flex flex-wrap gap-2 list-none p-0 m-0">
+      {project.data.tags.map((tag) => (
+        <li><span class="tag">{tag}</span></li>
+      ))}
+    </ul>
+    {
+      project.data.website && (
+        <p class="mt-6">
+          <a
+            href={project.data.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
+            Visit oleosandcanvas.com
+          </a>
+        </p>
+      )
+    }
+  </Fragment>
+  <Content />
+</ArticleLayout>

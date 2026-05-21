@@ -1,0 +1,75 @@
+---
+import { site, navItems } from '../data/site';
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+    <a href="/" class="font-display text-lg font-semibold text-text hover:text-accent">
+      {site.name}
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Main">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-sm font-medium transition-colors',
+              isActive(item.href)
+                ? 'text-accent'
+                : 'text-text-muted hover:text-text',
+            ]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href={site.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hidden text-sm font-medium text-accent hover:text-accent-hover md:inline-flex"
+    >
+      LinkedIn
+    </a>
+
+    <details class="relative md:hidden">
+      <summary class="cursor-pointer list-none text-sm font-medium text-text">
+        Menu
+      </summary>
+      <nav
+        class="absolute right-0 mt-2 min-w-[10rem] rounded-lg border border-border bg-surface py-2 shadow-lg"
+        aria-label="Mobile"
+      >
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              class="block px-4 py-2 text-sm text-text-muted hover:bg-background hover:text-text"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <a
+          href={site.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block px-4 py-2 text-sm text-accent"
+        >
+          LinkedIn
+        </a>
+      </nav>
+    </details>
+  </div>
+</header>
