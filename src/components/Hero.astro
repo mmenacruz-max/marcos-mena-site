@@ -7,9 +7,11 @@ import { site } from '../data/site';
     <img
       src={site.headshot}
       alt={`Portrait of ${site.name}`}
-      width="160"
-      height="160"
-      class="h-36 w-36 shrink-0 rounded-2xl border border-border bg-surface object-cover object-[center_35%] md:h-40 md:w-40"
+      width="280"
+      height="280"
+      class="h-44 w-44 shrink-0 rounded-2xl border border-border bg-surface object-cover sm:h-52 sm:w-52 md:h-64 md:w-64"
+      loading="eager"
+      decoding="async"
     />
     <section>
       <h1 class="font-display text-4xl font-bold tracking-tight text-text md:text-5xl">

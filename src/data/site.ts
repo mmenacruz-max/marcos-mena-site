@@ -1,5 +1,7 @@
 export const site = {
-  headshot: '/images/headshot.png',
+  /** Square crop tuned for the home hero; full photo at headshotFull */
+  headshot: '/images/headshot-hero.png',
+  headshotFull: '/images/headshot.png',
   name: 'Marcos Mena Cruz',
   title: 'SMB Account Executive, Industrials · Amazon Business · Toronto',
   tagline:
