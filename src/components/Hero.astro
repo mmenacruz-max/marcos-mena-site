@@ -5,11 +5,11 @@ import { site } from '../data/site';
 <section class="mx-auto max-w-5xl px-6 py-16 md:py-24">
   <section class="flex flex-col gap-10 md:flex-row md:items-center md:gap-16">
     <img
-      src="/images/avatar-placeholder.svg"
-      alt=""
+      src={site.headshot}
+      alt={`Portrait of ${site.name}`}
       width="160"
       height="160"
-      class="h-36 w-36 shrink-0 rounded-2xl border border-border bg-surface object-cover md:h-40 md:w-40"
+      class="h-36 w-36 shrink-0 rounded-2xl border border-border bg-surface object-cover object-[center_35%] md:h-40 md:w-40"
     />
     <section>
       <h1 class="font-display text-4xl font-bold tracking-tight text-text md:text-5xl">
