@@ -73,5 +73,5 @@ Create `src/content/projects/your-slug.md` with frontmatter: `title`, `descripti
 
 ## Design
 
-- **Fonts:** Fraunces (headings), DM Sans (body), JetBrains Mono (code)
+- **Fonts:** Sora (headings), IBM Plex Sans (body), JetBrains Mono (code)
 - **Colors:** Off-white background, navy text, teal accent (`src/styles/global.css`)
